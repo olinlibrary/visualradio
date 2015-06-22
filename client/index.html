@@ -1,0 +1,89 @@
+<style>
+	.container {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		background-color: #000;
+	}
+	.overlay {
+		color: #fff;
+		font-size: 35em;
+		text-align: center;
+		opacity: 0;
+	}
+</style>
+
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+<script src="jquery.min.js"></script>
+<script src="jquery.hotkeys.js"></script>
+
+<div class="container">
+	<iframe style="height:100%;width:100%" src="" frameborder="0"></iframe>
+</div>
+<div class="container overlay">
+	<i class=""></i>
+</div>
+
+<script>
+
+	var current = 0;
+	var videos = [{
+		location: '831Drz4YQdQ',
+		start: 180
+	},{
+		location: 'VTEWIiFPDN4'
+	},{
+		location: 'jMTTNpZWiKw'
+	},{
+		location: 'kEjgIKMkVN4'
+	}];
+
+	$(document).ready(function(){
+		loadVideo(videos[current]);
+	});
+
+	$(document).bind('keydown', 'up', function(){
+		$('i').attr('class','fa fa-thumbs-up');
+		showOverlay();
+	});
+
+	$(document).bind('keydown', 'down', function(){
+		$('i').attr('class','fa fa-thumbs-down');
+		showOverlay();
+	});
+
+	$(document).bind('keydown', 'right', function(){
+		// $('i').attr('class','fa fa-forward');
+		// showOverlay();
+
+		current++;
+		if(current >= videos.length)
+			current = 0;
+		loadVideo(videos[current]);
+		console.log(current);
+	});
+
+	$(document).bind('keydown', 'r', function(){
+		location.reload();
+	});
+
+	function loadVideo(video){
+		$('iframe').attr('src','https://www.youtube.com/embed/'+video.location+'?autoplay=1&start='+video.start+'&vq=hd1080');
+	}
+
+	function showOverlay(){
+		$('.overlay').animate({
+			opacity: 0.5
+		},
+		{
+			complete: function(){
+				$(this).animate({
+					opacity: 0
+				});
+			}
+		});
+	}
+
+</script>
