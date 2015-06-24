@@ -109,3 +109,6 @@ $(document).bind('keydown', 'down', function(){
 $(document).bind('keydown', 'right', function(){
     changeChannel(2);
 });
+$(document).bind('keydown', 'r', function(){
+    location.reload();
+});
