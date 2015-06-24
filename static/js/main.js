@@ -14,7 +14,7 @@ var ERRORS_BEFORE_PROMPT = 3; // Errors Before the User is Shown an Error Messag
 
 function getStatus(){
     $.ajax({
-        url: '/status/'+channelNumber,
+        url: '/status.php?ch='+channelNumber,
         dataType: 'json',
         success: updatePlayer,
         complete: function(){
@@ -34,22 +34,22 @@ function updatePlayer(data){
 
     // Check For Lag
     if(playerInitialized)
-        timeDelta = playerHandle.p.getCurrentTime() - data[1];
+        timeDelta = playerHandle.p.getCurrentTime() - data[2];
     console.log('Delta: '+timeDelta);
 
-    currentTime = Math.floor(data[1]) + BUFFER_TIME;
+    currentTime = Math.floor(data[2]) + BUFFER_TIME;
 
     if(!videoLoading){
         // If Player Not Initialized
         if (!playerInitialized){
             videoLoading = true;
-            currentVideo = data[0];
+            currentVideo = data[1];
             initializePlayer(currentVideo, currentTime);
 
         // If Video Changed
-        }else if(data[0] != currentVideo){
+        }else if(data[1] != currentVideo){
             videoLoading = true;
-            currentVideo = data[0];
+            currentVideo = data[1];
             playerHandle.p.loadVideoById(currentVideo, currentTime)
 
         // If Lagging Too Much
@@ -92,7 +92,19 @@ function changeChannel(channel){
     clearTimeout(timer);
     channelNumber = channel;
     getStatus();
+    console.log(channelNumber)
 }
 
 // Start Program
 $(document).ready(getStatus);
+
+
+$(document).bind('keydown', 'up', function(){
+    changeChannel(0);
+});
+$(document).bind('keydown', 'down', function(){
+    changeChannel(1);
+});
+$(document).bind('keydown', 'right', function(){
+    changeChannel(2);
+});

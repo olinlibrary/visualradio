@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 from channel import Channel
-from multiprocessing.connection import Listener
+import socket
 import json
 
 channelCount = 2
@@ -10,11 +10,13 @@ channels = []
 for n in range(0, channelCount):
     channels.append(Channel(n))
 
-# Listen for Web Server to Talk
-listener = Listener(('localhost',9348))
+# Send Status Updates to Web Server
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.bind(('', 41234))
+s.listen(1)
 while True:
-    conn = listener.accept() # Accept Connection
-    channel = int(conn.recv_bytes()) # Get Channel Number
-    conn.send_bytes(json.dumps(channels[channel].status()))
+    conn, addr = s.accept()
+    channel = int(conn.recv(1024))
+    if channel < channelCount and channel >= 0:
+        conn.sendall(json.dumps(channels[channel].status()))
     conn.close()
-listener.close()
