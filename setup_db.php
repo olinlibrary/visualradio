@@ -17,7 +17,7 @@ $db->query("INSERT INTO `videos` (`id`, `source`, `sourceID`, `startTime`, `endT
 // Channel Two Videos
 $db = new SQLite3('ch1.db');
 $db->query('DELETE FROM videos');
-$db->query("INSERT INTO `videos` (`id`, `source`, `sourceID`, `startTime`, `endTime`) VALUES ('1', 'youtube', 'NhPqn7MuDy0', '0', '200');");
+$db->query("INSERT INTO `videos` (`id`, `source`, `sourceID`, `startTime`, `endTime`) VALUES ('1', 'youtube', 'NhPqn7MuDy0', '0', '160');");
 $db->query("INSERT INTO `videos` (`id`, `source`, `sourceID`, `startTime`, `endTime`) VALUES ('2', 'youtube', 'H5jHLv_TUEY', '7', '100');");
 $db->query("INSERT INTO `videos` (`id`, `source`, `sourceID`, `startTime`, `endTime`) VALUES ('3', 'youtube', 'KSwBT6QRUjA', '12', '150');");
 
