@@ -1,0 +1,30 @@
+.container {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background-color: #000;
+}
+.overlay {
+	opacity: 0;
+}
+.error {
+	display: none;
+	color: #fff;
+	text-align: center;
+	font-family: sans-serif;
+	font-size: 5em;
+}
+.error i{
+	font-size: 4em;
+}
+i {
+	display: block;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 50%;
+	bottom: 0;
+	margin-top: -0.5em;
+}
