@@ -101,6 +101,7 @@ $(document).ready(getStatus);
 
 $(document).bind('keydown', 'up', function(){
     changeChannel(0);
+    consol
 });
 $(document).bind('keydown', 'down', function(){
     changeChannel(1);
