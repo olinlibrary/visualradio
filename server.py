@@ -1,16 +1,21 @@
-from channel import Channel
 import json
 from flask import *
-
-# Constants
-channelCount = 2
-
-# Initialize Channels
-channels = []
-for n in range(0, channelCount):
-    channels.append(Channel(n))
+from multiprocessing.connection import Client
+import subprocess
+from sys import platform as _platform
 
 app = Flask(__name__)
+
+address = ('localhost',9348) # Address to Radio Server
+
+# Start Radio if Not Alive
+if _platform == "linux" or _platform == "linux2":
+    if subprocess.call(["pidof","-x","visualradio.py"]):
+        subprocess.Popen(["./radio.py"])
+        print "Radio Process Started"
+    else:
+        print "Radio Process Running"
+
 
 @app.route("/")
 def root():
@@ -22,7 +27,11 @@ def send_js(path):
 
 @app.route("/status/<path:channel>")
 def returnStatus(channel):
-    return json.dumps(channels[int(channel)].status())
+    conn = Client(address)
+    conn.send_bytes(str(channel))
+    status = conn.recv_bytes()
+    conn.close()
+    return status
     
 if __name__ == '__main__':
     app.run()
