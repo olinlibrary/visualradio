@@ -1,24 +1,37 @@
 <?php
 
 require 'config.php';
-if(!isset($_GET['ch'])) die('No Channel Specified');
-$ch = (int)$_GET['ch'];
-if($ch >= $CHANNEL_COUNT || $ch < 0) die('Invalid Channel');
 
-$db = new SQLite3('ch'.$ch.'.db');
+if(!isset($_GET['ch'])){
+	http_response_code(403);
+	die('No Channel Specified');
+}
 
 // Get Current Entry in Schedule
-$statement = $db->prepare('SELECT videos.source,videos.sourceID,schedule.startTime,videos.startTime FROM schedule LEFT JOIN videos on schedule.id = videos.id WHERE schedule.startTime <= :time ORDER BY schedule.startTime DESC');
-$statement->bindValue(':time', time(), SQLITE3_INTEGER);
-$results = $statement->execute();
+$db = new SQLite3($DATABASE);
+getSchedule:
+	$query = $db->prepare('SELECT video,startTime FROM schedule WHERE startTime <= :time AND channel = :ch ORDER BY startTime DESC');
+	$query->bindValue(':ch', $_GET['ch'], SQLITE3_INTEGER);
+	$query->bindValue(':time', time(), SQLITE3_INTEGER);
+	$result = $query->execute()->fetchArray(SQLITE3_ASSOC);
 
+// If Schedule Not Present, Regenerate
+if(!$result){
+	require 'schedule.php';
+	goto getSchedule;
+}
 
-// If Schedule Needs to be Regenerated
-$result = $results->fetchArray(SQLITE3_NUM);
-if(!$result)
-	die('No Schedule Present');
+// Calculate Video Time
+$status = json_decode($result['video']);
+$videoTime = $status[2] + time() - $result['startTime'];
+
+// If End of Schedule, Regenerate
+if($videoTime >= $status[3]){
+	require 'schedule.php';
+	goto getSchedule;
+}
 
 // Calculate Current Time
-$result[2] = time() - $result[2] + $result[3];
-unset($result[3]);
-print_r(json_encode($result));
+$status[2] = $videoTime;
+unset($status[3]);
+print_r(json_encode($status));

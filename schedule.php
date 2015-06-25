@@ -1,41 +1,42 @@
 <?php
 
 require 'config.php';
-if(!isset($_GET['ch'])) die('No Channel Specified');
-$ch = (int)$_GET['ch'];
-if($ch >= $CHANNEL_COUNT || $ch < 0) die('Invalid Channel');
 
-$videos = array();
-$time = time();
-srand('ch'.$ch.$time);
+if(!isset($_GET['ch'])){
+	http_response_code(403);
+	die('No Channel Specified');
+}
 
-// Get Array of Videos
-$db = new SQLite3('ch'.$ch.'.db');
-$results = $db->query('SELECT `id`,`startTime`,`endTime` FROM videos');
-while($row = $results->fetchArray(SQLITE3_ASSOC))
-	array_push($videos, $row);
+// Load Channel
+$db = new SQLite3($DATABASE);
+$query = $db->prepare('SELECT playlist,shuffle FROM channels WHERE id = :id');
+$query->bindValue(':id', $_GET['ch'], SQLITE3_INTEGER);
+$channel = $query->execute()->fetchArray(SQLITE3_ASSOC);
+
+// If Channel Invalid
+if(!$channel){
+	http_response_code(400);
+	die('Invalid Channel');
+}
 
 // Clear Existing Schedule
-$db->query('DELETE FROM schedule');
+$query = $db->prepare('DELETE FROM schedule WHERE channel = :ch');
+$query->bindValue(':ch', $_GET['ch'], SQLITE3_INTEGER);
+$query->execute();
 
-// Generate 1 Week Long Schedule
-$lastVideo = $videos[0]['id'];
-$targetLength = $time + 60*60*24*7;
-while($time < $targetLength){
+// Get Playlist & Shuffle if Necessary
+$playlist = json_decode($channel['playlist']);
+if($channel['shuffle'])
+	shuffle($playlist);
 
-	// Shuffle Array
-	while($videos[0]['id'] != $lastVideo)
-		shuffle($videos);
+// Build Schedule
+$time = time();
+foreach($playlist as $video){
+	$query = $db->prepare('INSERT INTO schedule (channel, startTime, video) VALUES (:ch, :startTime, :video);');
+	$query->bindValue(':ch', $_GET['ch'], SQLITE3_INTEGER);
+	$query->bindValue(':startTime', $time, SQLITE3_INTEGER);
+	$query->bindValue(':video', json_encode($video), SQLITE3_TEXT);
+	$query->execute();
 
-	// Build Schedule
-	foreach($videos as $vid){
-		$statement = $db->prepare('INSERT INTO `schedule` VALUES (:id, :startTime);');
-		$statement->bindValue(':id', $vid['id'], SQLITE3_INTEGER);
-		$statement->bindValue(':startTime', $time, SQLITE3_INTEGER);
-		$statement->execute();
-
-		$time += $vid['endTime'] - $vid['startTime'];
-	}
-
-	$lastVideo = $vid['id'];
+	$time += $video[3] - $video[2];
 }

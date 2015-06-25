@@ -14,7 +14,7 @@ var ERRORS_BEFORE_PROMPT = 3; // Errors Before the User is Shown an Error Messag
 
 function getStatus(){
     $.ajax({
-        url: '/status.php?ch='+channelNumber,
+        url: '/status.php?ch='+channelList[channelNumber],
         dataType: 'json',
         success: updatePlayer,
         complete: function(){
@@ -92,7 +92,6 @@ function changeChannel(channel){
     clearTimeout(timer);
     channelNumber = channel;
     getStatus();
-    console.log(channelNumber)
 }
 
 // Start Program

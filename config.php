@@ -1,3 +1,3 @@
 <?php
 
-$CHANNEL_COUNT = 3;
+$DATABASE = 'visualradio.db';
