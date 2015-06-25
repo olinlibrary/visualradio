@@ -35,7 +35,7 @@ function updatePlayer(data){
     // Check For Lag
     if(playerInitialized)
         timeDelta = playerHandle.p.getCurrentTime() - data[2];
-    console.log('Delta: '+timeDelta);
+    // console.log('Delta: '+timeDelta);
 
     currentTime = Math.floor(data[2]) + BUFFER_TIME;
 
@@ -72,8 +72,17 @@ function initializePlayer(videoID, startTime){
         height: '100%',
         playerVars: {
             autoplay: 1,
-            start: startTime,
-            controls: 0
+            controls: 0,
+            cc_load_policy: 0,
+            disablekb: 0,
+            fs: 0,
+            iv_load_policy: 3,
+            loop: 1,
+            modestbranding: 1,
+            playsinline: 0,
+            rel: 0,
+            showinfo: 0,
+            start: startTime
         },
         events: {
             play: function(){
@@ -82,7 +91,6 @@ function initializePlayer(videoID, startTime){
                 playerHandle.p.setPlaybackQuality('hd1080');
                 videoLoading = false;
                 playerInitialized = true;
-                console.log('Video Playing');
             }
         }
     });
@@ -96,18 +104,3 @@ function changeChannel(channel){
 
 // Start Program
 $(document).ready(getStatus);
-
-
-$(document).bind('keydown', 'up', function(){
-    changeChannel(0);
-    consol
-});
-$(document).bind('keydown', 'down', function(){
-    changeChannel(1);
-});
-$(document).bind('keydown', 'right', function(){
-    changeChannel(2);
-});
-$(document).bind('keydown', 'r', function(){
-    location.reload();
-});
