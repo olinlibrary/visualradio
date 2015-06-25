@@ -1,6 +1,6 @@
 #include <Bounce.h>
 
-Bounce nextButton = Bounce(13, 50);
+Bounce button3 = Bounce(13, 50);
 Bounce upButton = Bounce(12, 50);
 Bounce downButton = Bounce(11, 50);
 
@@ -13,9 +13,9 @@ void setup() {
 }
 
 void loop() {
-  if(nextButton.update()){
-    if(nextButton.fallingEdge()){
-      Keyboard.write(215);
+  if(button3.update()){
+    if(button3.fallingEdge()){
+      Keyboard.write(32);
     }
   }
   if(upButton.update()){
