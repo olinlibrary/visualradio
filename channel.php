@@ -19,20 +19,6 @@ class Channel {
 		echo Template::instance()->render('templates/channels.html');
 	}
 
-	function listJSON($f3){
-		$db = $f3->get('db');
-
-		// Get Channels
-		$channels = new Db\SQL\Mapper($f3->get('db'), 'channels');
-		$channels = $channels->find();
-
-		$status = array();
-		foreach($channels as $channel)
-			array_push($status, $channel->id);
-
-		echo json_encode($status);
-	}
-
 	function status($f3){
 		$db = $f3->get('db');
 		$time = time();

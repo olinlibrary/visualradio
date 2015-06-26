@@ -2,7 +2,7 @@ var player, playerHandle, currentVideo;
 var videoLoading = false;
 var playerInitialized = false;
 var timeDelta = false;
-var channelList;
+var channelList = [];
 var channelNumber = 0;
 var timer;
 var errorCount = 0;
@@ -12,20 +12,21 @@ var BUFFER_TIME = 3; // Seconds to Jump Ahead to Account for Buffer
 var PERMISSIBLE_LAG = 6;
 var POLL_TIME = 2500; // Milliseconds Between Server Polls
 var ERRORS_BEFORE_PROMPT = 3; // Errors Before the User is Shown an Error Message
+var MENU_HIDE_TIMER = 1000;
+
+var menuBarTimer = setTimeout(hideMenuBar, MENU_HIDE_TIMER);
 
 function getChannelList(){
-    $.ajax({
-        url: '/channels',
-        method: 'POST',
-        dataType: 'json',
-        success: function(data){
-            console.log(data);
-            channelList = data;
-            getStatus();
-        },
-        error: function(){
-            $('.error').show();
-        }
+    $('.channelguide a').each(function(index){
+        $(this).attr('ind',index);
+        channelList.push(parseInt($(this).attr('id')));
+    });
+    $('.channelguide a:first').addClass('active');
+    getStatus();
+
+    $('.channelguide a').click(function(event){
+        event.preventDefault();
+        changeChannel($(this).attr('ind'));
     });
 }
 
@@ -115,10 +116,33 @@ function initializePlayer(videoID, startTime){
 }
 
 function changeChannel(channel){
+    showMenuBar();
     clearTimeout(timer);
+    $('.channelguide a').removeClass('active');
     channelNumber = channel;
+    $('.channelguide a[ind='+channel+']').addClass('active')
     getStatus();
 }
 
 // Start Program
 $(document).ready(getChannelList);
+
+$(window).mousemove(showMenuBar);
+var menuBar = true;
+function showMenuBar(){
+    clearTimeout(menuBarTimer);
+    menuBarTimer = setTimeout(hideMenuBar, MENU_HIDE_TIMER);
+    
+    if(menuBar) return;
+    $('.channelguide').animate({
+        bottom: '10px'
+    }, 200);
+    menuBar = true;
+}
+function hideMenuBar(){
+    if(!menuBar) return;
+    $('.channelguide').animate({
+        bottom: '-140px'
+    }, 1000);
+    menuBar = false;
+}
