@@ -1,0 +1,26 @@
+<?php
+
+$db = new SQLite3('visualradio.db');
+
+$db->query('CREATE TABLE IF NOT EXISTS channels (
+	id INTEGER PRIMARY KEY,
+	name TEXT,
+	hours REAL
+)');
+
+$db->query('CREATE TABLE IF NOT EXISTS videos (
+	id INTEGER PRIMARY KEY,
+	channel INTEGER,
+	youtubeID TEXT,
+	startTime INTEGER,
+	endTime INTEGER,
+	CONSTRAINT uniqueInChannel UNIQUE (channel, youtubeID) ON CONFLICT REPLACE
+)');
+
+$db->query('CREATE TABLE IF NOT EXISTS schedule (
+	id INTEGER PRIMARY KEY,
+	channel INTEGER,
+	startTime INTEGER,
+	endTime INTEGER,
+	video INTEGER
+)');

@@ -1,3 +1,0 @@
-<?php
-
-$DATABASE = 'visualradio.db';

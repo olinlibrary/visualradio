@@ -1,0 +1,15 @@
+<repeat group="{{@channels}}" value="{{@channel}}">
+	<h1>Channel {{@channel.id}} - {{@channel.name}}</h1>
+	<p><a href='/channel/{{@channel.id}}/new'>Add Video</a> | 
+	{{'{0,number,decimal,1}',@channel.hours|format}} hours watched | 
+	<a href='/channel/{{@channel.id}}/edit'>Edit Channel</a></p>
+	
+	<repeat group="{{@videos[@channel.id]}}" value="{{@video}}">
+		<a href='/channel/{{@channel.id}}/{{@video.id}}'>
+			<img src='http://img.youtube.com/vi/{{@video.youtubeID}}/default.jpg'>
+	    </a>
+	</repeat>
+	<hr>
+</repeat>
+
+<p><a href='/'>Go to Visual Radio</a> | <a href='/channel/new'>Create New Channel</a></p>

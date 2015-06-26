@@ -1,0 +1,12 @@
+<h1>Edit Video</h1>
+<form action='' method="POST">
+	Channel: <input disabled type="text" name="youtubeID" value='{{@PARAMS.channelID}}'><br />
+	Youtube ID: <input disabled type="text" name="youtubeID" value='{{@video.youtubeID}}'><br />
+	Start Time (seconds): <input type="text" name="startTime" value='{{@video.startTime}}'><br />
+	End Time (seconds): <input type="text" name="endTime" value='{{@video.endTime}}'><br />
+	<input type="submit">
+</form>
+<form action='' method="POST">
+	<input type="hidden" name="delete" value="1">
+    <input type="submit" value="Delete Video">
+</form>

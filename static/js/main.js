@@ -2,6 +2,7 @@ var player, playerHandle, currentVideo;
 var videoLoading = false;
 var playerInitialized = false;
 var timeDelta = false;
+var channelList;
 var channelNumber = 0;
 var timer;
 var errorCount = 0;
@@ -12,9 +13,26 @@ var PERMISSIBLE_LAG = 6;
 var POLL_TIME = 2500; // Milliseconds Between Server Polls
 var ERRORS_BEFORE_PROMPT = 3; // Errors Before the User is Shown an Error Message
 
+function getChannelList(){
+    $.ajax({
+        url: '/channels',
+        method: 'POST',
+        dataType: 'json',
+        success: function(data){
+            console.log(data);
+            channelList = data;
+            getStatus();
+        },
+        error: function(){
+            $('.error').show();
+        }
+    });
+}
+
 function getStatus(){
     $.ajax({
-        url: '/status.php?ch='+channelList[channelNumber],
+        url: '/channel/'+channelList[channelNumber]+'/status',
+        method: 'POST',
         dataType: 'json',
         success: updatePlayer,
         complete: function(){
@@ -34,22 +52,22 @@ function updatePlayer(data){
 
     // Check For Lag
     if(playerInitialized)
-        timeDelta = playerHandle.p.getCurrentTime() - data[2];
+        timeDelta = playerHandle.p.getCurrentTime() - data['currentTime'];
     // console.log('Delta: '+timeDelta);
 
-    currentTime = Math.floor(data[2]) + BUFFER_TIME;
+    currentTime = Math.floor(data['currentTime']) + BUFFER_TIME;
 
     if(!videoLoading){
         // If Player Not Initialized
         if (!playerInitialized){
             videoLoading = true;
-            currentVideo = data[1];
+            currentVideo = data['youtubeID'];
             initializePlayer(currentVideo, currentTime);
 
         // If Video Changed
-        }else if(data[1] != currentVideo){
+        }else if(data['youtubeID'] != currentVideo){
             videoLoading = true;
-            currentVideo = data[1];
+            currentVideo = data['youtubeID'];
             playerHandle.p.loadVideoById(currentVideo, currentTime)
 
         // If Lagging Too Much
@@ -103,4 +121,4 @@ function changeChannel(channel){
 }
 
 // Start Program
-$(document).ready(getStatus);
+$(document).ready(getChannelList);

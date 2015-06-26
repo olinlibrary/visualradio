@@ -1,0 +1,10 @@
+<h1>Edit Channel</h1>
+<form action='' method="POST">
+	Channel: <input type="text" disabled value='{{@PARAMS.channelID}}'><br />
+	Name: <input type="text" name="name" value='{{@channel.name}}'><br />
+	<input type="submit">
+</form>
+<form action='' method="POST">
+	<input type="hidden" name="delete" value="1">
+    <input type="submit" value="Delete Channel">
+</form>
