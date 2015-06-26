@@ -6,7 +6,7 @@ require('channel.php');
 
 $f3->set('DEBUG',1);
 $f3->config('config.ini');
-$f3->set('db',new DB\SQL('sqlite:visualradio.db'));
+$f3->set('db',new DB\SQL('sqlite:db/visualradio.db'));
 
 $f3->route('GET /', function($f3) {
 	echo Template::instance()->render('templates/index.html');
