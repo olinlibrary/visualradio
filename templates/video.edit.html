@@ -1,12 +1,21 @@
+<script src="/static/js/lib/jquery.min.js"></script>
+<script src="/static/js/lib/jquery.tube.min.js"></script>
+<script src="/static/js/video.add.js"></script>
+
 <h1>Edit Video</h1>
-<form action='' method="POST">
-	Channel: <input disabled type="text" name="youtubeID" value='{{@PARAMS.channelID}}'><br />
+<a href='/channels'>Back to Channels</a>
+
+<p><form id='videoInfo' action='' method="POST">
+	Channel: <input disabled type="text" name="channelID" value='{{@PARAMS.channelID}}'><br />
 	Youtube ID: <input disabled type="text" name="youtubeID" value='{{@video.youtubeID}}'><br />
-	Start Time (seconds): <input type="text" name="startTime" value='{{@video.startTime}}'><br />
-	End Time (seconds): <input type="text" name="endTime" value='{{@video.endTime}}'><br />
-	<input type="submit">
-</form>
-<form action='' method="POST">
+	Start Time (seconds): <input type="text" class='time' name="startTime" disabled value='{{@video.startTime}}'> <button disabled class='time' name="startTime">Set Start Time to Current</button><br />
+	End Time (seconds): <input type="text" class='time' name="endTime" disabled value='{{@video.endTime}}'> <button disabled class='time' name="endTime">Set End Time to Current</button><br />
+	<input type="submit" disabled value="Update Video">
+</form></p>
+
+<div class='video container'></div>
+
+<p><form action='' method="POST">
 	<input type="hidden" name="delete" value="1">
     <input type="submit" value="Delete Video">
-</form>
+</form></p>

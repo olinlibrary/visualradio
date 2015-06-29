@@ -111,14 +111,18 @@ class Channel {
 		$channel = new DB\SQL\Mapper($f3->get('db'),'channels');
 		$channel->load(array('id=?', $f3->get('PARAMS.channelID')));
 
+		// Delete Channel
 		if($f3->get('POST.delete') == '1'){
 			$channel->erase();
+			$f3->reroute('@channelList');
+
+		// Update Name
 		}else{
 			$channel->name = $f3->get('POST.name');
 			$channel->save();
+			$f3->reroute('@channelList');
 		}
 
-		$f3->reroute('@channelList');
 	}
 
 }
