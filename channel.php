@@ -54,7 +54,7 @@ class Channel {
 		// Update Channel Count
 		$channel = new Db\SQL\Mapper($f3->get('db'), 'channels');
 		$channel->load(array('id=?', $f3->get('PARAMS.channelID')));
-		$channel->hours += 2.5/60;
+		$channel->hours += 2.5/3600;
 		$channel->save();
 	}
 
