@@ -20,8 +20,26 @@ class Channel {
 	}
 
 	function status($f3){
+		$status = array();
 		$db = $f3->get('db');
 		$time = time();
+
+		// Get Channel
+		$channel = new Db\SQL\Mapper($f3->get('db'), 'channels');
+		$channel->load(
+			array('id = :ch',
+				':ch'   => $f3->get('PARAMS.channelID')));
+
+		// Update Channel Count
+		$channel->hours += 2.5/3600;
+		$channel->save();
+
+		// Deal with Live Events
+		if($channel->live){
+			$status['youtubeID'] = $channel->live;
+			echo json_encode($status);
+			return;
+		}
 
 		// Get Current Entry in Schedule
 		getCurrent:
@@ -45,17 +63,10 @@ class Channel {
 			die();
 		}
 
-		$status = array();
 		$status['youtubeID'] = $video->youtubeID;
 		$status['currentTime'] = $time + $video->startTime - $schedule->startTime;
 
 		echo json_encode($status);
-
-		// Update Channel Count
-		$channel = new Db\SQL\Mapper($f3->get('db'), 'channels');
-		$channel->load(array('id=?', $f3->get('PARAMS.channelID')));
-		$channel->hours += 2.5/3600;
-		$channel->save();
 	}
 
 	function buildSchedule($f3){

@@ -5,7 +5,8 @@ $db = new DB\SQL('sqlite:../visualradio.db');
 $db->exec('CREATE TABLE IF NOT EXISTS channels (
 	id INTEGER PRIMARY KEY,
 	name TEXT,
-	hours REAL DEFAULT(0)
+	hours REAL DEFAULT(0),
+    live  TEXT DEFAULT(0)
 )');
 
 $db->exec('CREATE TABLE IF NOT EXISTS videos (
