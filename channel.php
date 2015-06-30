@@ -130,6 +130,7 @@ class Channel {
 		// Update Name
 		}else{
 			$channel->name = $f3->get('POST.name');
+			$channel->live = $f3->get('POST.live');
 			$channel->save();
 			$f3->reroute('@channelList');
 		}
