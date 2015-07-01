@@ -1,65 +1,48 @@
-<head>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/static/css/channels.css" rel="stylesheet">
-    <title>Visual Radio | Edit Video</title>
-</head>
-<body>
-    <nav class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="/channels">Visual Radio</a>
-        </div>
-      </div>
-    </nav>
+<div class='row'>
+    <div class='col-xs-6'>
+        <h1>Edit Video - Channel {{@PARAMS.channelID}}</h1>
 
-    <div class='container'>
-        <div class='row'>
-            <div class='col-xs-6'>
-                <h1>Edit Video - Channel {{@PARAMS.channelID}}</h1>
+        <form action='' id='videoInfo' method="POST">
 
-                <form action='' id='videoInfo' method="POST">
-
-                    <div id='youtubeID' class="form-group">
-                        <label for="youtubeID">Youtube ID</label>
-                        <input type="text" class="form-control" name="youtubeID" disabled value='{{@video.youtubeID}}'>
-                    </div>
-
-                    <div id='startTime' class="form-group has-feedback">
-                        <label for="startTime">Start Time</label>
-                        <input type="text" class="time form-control" name="startTime" disabled value='{{@video.startTime}}'>
-                        <span class="glyphicon glyphicon-remove form-control-feedback"></span>
-                        <span class="help-block">Time in seconds when the video should start playing.<br />Set this to after any intro text in the video.</span>
-                    </div>
-
-                    <div id='endTime' class="form-group has-feedback">
-                        <label for="endTime">End Time</label>
-                        <input type="text" class="time form-control" name="endTime" disabled value='{{@video.endTime}}'>
-                        <span class="glyphicon glyphicon-remove form-control-feedback"></span>
-                        <span class="help-block">Time in seconds when the video should stop playing.<br />Set this to before any credits or links to related videos.</span>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Submit</button>
-
-                </form>
-
+            <div id='youtubeID' class="form-group">
+                <label for="youtubeID">Youtube ID</label>
+                <input type="text" class="form-control" name="youtubeID" disabled value='{{@video.youtubeID}}'>
             </div>
 
-            <div class='col-xs-6'>
-                <form action='' method="POST">
-                    <input type="hidden" name="delete" value="1">
-                    <button type="submit" class='delete btn btn-danger'>Delete Video</button>
-                </form>
-
-                <div class='video'></div>
-                <p>
-                    <button class='time btn btn-success' name="startTime" disabled>Set Start Time to Current</button>
-                    <button class='time btn btn-success' name="endTime" disabled>Set End Time to Current</button>
-                </p>
+            <div id='startTime' class="form-group has-feedback">
+                <label for="startTime">Start Time</label>
+                <input type="text" class="time form-control" name="startTime" disabled value='{{@video.startTime}}'>
+                <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                <span class="help-block">Time in seconds when the video should start playing.<br />Set this to after any intro text in the video.</span>
             </div>
-        </div>
+
+            <div id='endTime' class="form-group has-feedback">
+                <label for="endTime">End Time</label>
+                <input type="text" class="time form-control" name="endTime" disabled value='{{@video.endTime}}'>
+                <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                <span class="help-block">Time in seconds when the video should stop playing.<br />Set this to before any credits or links to related videos.</span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+
+        </form>
+
     </div>
 
-    <script src="/static/js/lib/jquery.min.js"></script>
-    <script src="/static/js/lib/jquery.tube.min.js"></script>
-    <script src="/static/js/video.add.js"></script>
-</body>
+    <div class='col-xs-6'>
+        <form action='' method="POST">
+            <input type="hidden" name="delete" value="1">
+            <button type="submit" class='delete btn btn-danger'>Delete Video</button>
+        </form>
+
+        <div class='video'></div>
+        <p>
+            <button class='time btn btn-success' name="startTime" disabled>Set Start Time to Current</button>
+            <button class='time btn btn-success' name="endTime" disabled>Set End Time to Current</button>
+        </p>
+    </div>
+</div>
+
+<script src="/static/js/lib/jquery.min.js"></script>
+<script src="/static/js/lib/jquery.tube.min.js"></script>
+<script src="/static/js/video.add.js"></script>

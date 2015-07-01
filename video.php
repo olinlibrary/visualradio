@@ -3,6 +3,7 @@
 class Video {
 
 	function addForm($f3){
+		echo Template::instance()->render('templates/header.html');
 		echo Template::instance()->render('templates/video.add.html');
 	}
 
@@ -20,6 +21,7 @@ class Video {
 		$video = new DB\SQL\Mapper($f3->get('db'),'videos');
 		$video = $video->load(array('id=?', $f3->get('PARAMS.videoID')));
 		$f3->set('video',$video);
+		echo Template::instance()->render('templates/header.html');
 		echo Template::instance()->render('templates/video.edit.html');
 	}
 

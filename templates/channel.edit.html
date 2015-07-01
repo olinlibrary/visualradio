@@ -1,38 +1,21 @@
-<head>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/static/css/channels.css" rel="stylesheet">
-    <title>Visual Radio | Edit Channel</title>
-</head>
-<body>
-    <nav class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="/channels">Visual Radio</a>
-        </div>
-      </div>
-    </nav>
-    
-    <div class='container narrow'>
-        <form action='' method="POST">
-            <input type="hidden" name="delete" value="1">
-            <button type="submit" class="delete btn btn-danger">Delete Channel</button>
-        </form>
-        <h1>Edit Channel</h1>
-        <form action='' method="POST">
-            <div class="form-group">
-                <label for="channelID">Channel Number</label>
-                <input type="text" class="form-control" disabled value='{{@PARAMS.channelID}}'>
-            </div>
-            <div class="form-group">
-                <label for="name">Channel Name</label>
-                <input type="text" class="form-control" name="name" value='{{@channel.name}}'>
-            </div>
-            <div class="form-group">
-                <label for="live">Live Stream</label>
-                <input type="text" class="form-control" name="live" value='{{@channel.live}}'>
-                <span class="help-block">To dedicate this channel to a live stream, place its Youtube ID here. Otherwise, leave blank.</span>
-            </div>
-            <button type="submit" class="btn btn-primary">Update Channel</button>
-        </form>
+<form action='' method="POST">
+    <input type="hidden" name="delete" value="1">
+    <button type="submit" class="delete btn btn-danger">Delete Channel</button>
+</form>
+<h1>Edit Channel</h1>
+<form action='' method="POST">
+    <div class="form-group">
+        <label for="channelID">Channel Number</label>
+        <input type="text" class="form-control" disabled value='{{@PARAMS.channelID}}'>
     </div>
-</body>
+    <div class="form-group">
+        <label for="name">Channel Name</label>
+        <input type="text" class="form-control" name="name" value='{{@channel.name}}'>
+    </div>
+    <div class="form-group">
+        <label for="live">Live Stream</label>
+        <input type="text" class="form-control" name="live" value='{{@channel.live}}'>
+        <span class="help-block">To dedicate this channel to a live stream, place its Youtube ID here. Otherwise, leave blank.</span>
+    </div>
+    <button type="submit" class="btn btn-primary">Update Channel</button>
+</form>

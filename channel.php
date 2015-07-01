@@ -16,6 +16,7 @@ class Channel {
 			$videoArray[$channel->id] = $videos->find(array('channel=?', $channel->id));
 		$f3->set('videos', $videoArray);
 
+		echo Template::instance()->render('templates/header.html');
 		echo Template::instance()->render('templates/channels.html');
 	}
 
@@ -106,6 +107,7 @@ class Channel {
 	}
 
 	function addForm($f3){
+		echo Template::instance()->render('templates/header.html');
 		echo Template::instance()->render('templates/channel.add.html');
 	}
 
@@ -122,6 +124,7 @@ class Channel {
 		$channel = new DB\SQL\Mapper($f3->get('db'),'channels');
 		$channel = $channel->load(array('id=?', $f3->get('PARAMS.channelID')));
 		$f3->set('channel',$channel);
+		echo Template::instance()->render('templates/header.html');
 		echo Template::instance()->render('templates/channel.edit.html');
 	}
 
