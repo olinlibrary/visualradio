@@ -33,7 +33,7 @@ function getChannelList(){
 function getStatus(){
     $.ajax({
         url: '/channel/'+channelList[channelNumber]+'/status',
-        method: 'POST',
+        method: 'GET',
         dataType: 'json',
         success: updatePlayer,
         complete: function(){

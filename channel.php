@@ -30,6 +30,9 @@ class Channel {
 			array('id = :ch',
 				':ch'   => $f3->get('PARAMS.channelID')));
 
+		// Error if Channel Doesn't Exist
+		if($channel->dry()) return $f3->error(400);
+
 		// Update Channel Count
 		$channel->hours += 2.5/3600;
 		$channel->save();
@@ -50,22 +53,26 @@ class Channel {
 				':ch'   => $f3->get('PARAMS.channelID')),
 			array('order'=>'startTime DESC'));
 
-		if($schedule->dry())
-			if($this->buildSchedule($f3))
-				goto getCurrent;
+		// Regenerate Schedule if Necessary
+		if($schedule->dry()){
+			if(!$this->buildSchedule($f3))
+				return $f3->error(401);
+			goto getCurrent;
+		}
 
 		// Get Youtube Video
 		$video = new Db\SQL\Mapper($f3->get('db'), 'videos');
 		$video->load(array('id=?', $schedule->video));
 
-		if($video->youtubeID == null){
-			$f3->error(400);
-			die();
+		// Regenerate Schedule if Video Doesn't Exist
+		if($video->dry()){
+			if(!$this->buildSchedule($f3))
+				return $f3->error(402);
+			goto getCurrent;
 		}
 
 		$status['youtubeID'] = $video->youtubeID;
 		$status['currentTime'] = $time + $video->startTime - $schedule->startTime;
-
 		echo json_encode($status);
 	}
 
@@ -126,8 +133,8 @@ class Channel {
 		// Delete Channel
 		if($f3->get('POST.delete') == '1'){
 			$channel->erase();
-
 			$db->exec('DELETE FROM videos WHERE channel=?', $f3->get('PARAMS.channelID'));
+			$db->exec('DELETE FROM schedule WHERE channel=?', $f3->get('PARAMS.channelID'));
 
 			$f3->reroute('@channelList');
 
