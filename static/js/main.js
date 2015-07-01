@@ -21,7 +21,15 @@ function getChannelList(){
         $(this).attr('ind',index);
         channelList.push(parseInt($(this).attr('id')));
     });
-    $('.channelguide a:first').addClass('active');
+
+    if(window.location.hash.length > 1 && $('.channelguide a[id='+window.location.hash.substring(1)+']').attr('id')){
+        $('.channelguide a[id='+window.location.hash.substring(1)+']').addClass('active');
+        channelNumber = $('.channelguide a[id='+window.location.hash.substring(1)+']').attr('ind');
+    }else{
+        window.location.hash = $('.channelguide a:first').attr('id');
+        $('.channelguide a:first').addClass('active');
+    }
+
     getStatus();
 
     $('.channelguide a').click(function(event){
@@ -118,9 +126,13 @@ function initializePlayer(videoID, startTime){
 function changeChannel(channel){
     showMenuBar();
     clearTimeout(timer);
+
     $('.channelguide a').removeClass('active');
     channelNumber = channel;
     $('.channelguide a[ind='+channel+']').addClass('active')
+
+    window.location.hash = $('.channelguide a[ind='+channel+']').attr('id');
+
     getStatus();
 }
 
