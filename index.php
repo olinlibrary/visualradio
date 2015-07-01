@@ -17,8 +17,7 @@ $f3->route('GET /', function($f3) {
 });
 $f3->route('GET /channel/@channelID/status', 'Channel->status');
 
-if($f3->get('enableAdmin')){
-
+if(!$f3->get('readonly')){
 	$f3->route('GET @channelList: /channels', 'Channel->viewAll');
 	$f3->route('GET /channel/new', 'Channel->addForm');
 	$f3->route('POST /channel/new', 'Channel->add');
