@@ -1,15 +1,34 @@
-<repeat group="{{@channels}}" value="{{@channel}}">
-	<h1>Channel {{@channel.id}} - {{@channel.name}}</h1>
-	<p><a href='/channel/{{@channel.id}}/new'>Add Video</a> | 
-	{{'{0,number,decimal,1}',@channel.hours|format}} hours watched | 
-	<a href='/channel/{{@channel.id}}/edit'>Edit Channel</a></p>
-	
-	<repeat group="{{@videos[@channel.id]}}" value="{{@video}}">
-		<a href='/channel/{{@channel.id}}/{{@video.id}}'>
-			<img src='http://img.youtube.com/vi/{{@video.youtubeID}}/default.jpg'>
-	    </a>
-	</repeat>
-	<hr>
-</repeat>
+<head>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/static/css/channels.css" rel="stylesheet">
+	<title>Visual Radio | Programming</title>
+</head>
 
-<p><a href='/'>Go to Visual Radio</a> | <a href='/channel/new'>Create New Channel</a></p>
+<body>
+	<nav class="navbar navbar-default navbar-fixed-top">
+	  <div class="container">
+	    <div class="navbar-header">
+	      <a class="navbar-brand" href="/channels">Visual Radio</a>
+	    </div>
+	    <a class="navbar-text navbar-right" href='/'><span class="glyphicon glyphicon-share-alt"></span> Go to Radio</a>
+	  </div>
+	</nav>
+
+	<div class=container>
+		<repeat group="{{@channels}}" value="{{@channel}}">
+			<h1>Channel {{@channel.id}} - {{@channel.name}}<a href='/channel/{{@channel.id}}/edit' class='edit btn btn-default'>Edit Channel</a></h1>
+			<p class='hours'>{{'{0,number,decimal,1}',@channel.hours|format}} hours watched </p>
+			<p><a class='btn btn-primary' href='/channel/{{@channel.id}}/new'>Add Video</a></p>
+			
+			<repeat group="{{@videos[@channel.id]}}" value="{{@video}}">
+				<a href='/channel/{{@channel.id}}/{{@video.id}}'>
+					<img src='http://img.youtube.com/vi/{{@video.youtubeID}}/default.jpg'>
+			    </a>
+			</repeat>
+			<hr>
+		</repeat>
+
+		<a class='btn btn-default' href='/channel/new'>Create New Channel</a>
+	</div>
+
+</body>

@@ -119,12 +119,16 @@ class Channel {
 	}
 
 	function edit($f3){
-		$channel = new DB\SQL\Mapper($f3->get('db'),'channels');
+		$db = $f3->get('db');
+		$channel = new DB\SQL\Mapper($db,'channels');
 		$channel->load(array('id=?', $f3->get('PARAMS.channelID')));
 
 		// Delete Channel
 		if($f3->get('POST.delete') == '1'){
 			$channel->erase();
+
+			$db->exec('DELETE FROM videos WHERE channel=?', $f3->get('PARAMS.channelID'));
+
 			$f3->reroute('@channelList');
 
 		// Update Name

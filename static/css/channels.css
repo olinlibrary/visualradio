@@ -1,0 +1,19 @@
+body {
+	padding: 50px 0;
+}
+.btn.edit, .hours {
+	float: right;
+}
+.container.narrow {
+	width: 600px;
+}
+iframe {
+	margin-bottom: 20px;
+}
+form .has-feedback:not(.has-error) .form-control-feedback {
+	display: none;
+}
+button.delete{
+	float: right;
+	margin: 25px 0;
+}

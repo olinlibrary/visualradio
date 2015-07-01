@@ -13,7 +13,7 @@ $(document).ready(function(){
 	});
 
     // Validate Upon Submit
-    $('form#videoInfo input[type=submit]').click(function(event){
+    $('form#videoInfo [type=submit]').click(function(event){
         event.preventDefault();
         if(validate())
             $('form#videoInfo').submit();
@@ -30,7 +30,7 @@ function initialize(){
         var videoID = $('input[name=youtubeID]').val();
 
     // Load Video Player
-    player = $('.container.video').player({
+    player = $('div.video').player({
         video: videoID, 
         width: '550px', 
         height: '300px',
@@ -48,8 +48,7 @@ function initialize(){
             showinfo: 0
         },events: {
             play: function(){
-                validate();
-                $('.time, input[type=submit]').attr('disabled',false);
+                $('button, .time').attr('disabled',false);
             }
         }
     });
@@ -60,29 +59,37 @@ function loadVideo(){
     if(youtubeID != player.data('player').p.getVideoData()['video_id']){
         player.data('player').p.loadVideoById(youtubeID);
         $('input.time').val('');
-        $('.time, input[type=submit]').attr('disabled',true);
+        $('button, .time').attr('disabled',true);
     }
 }
 
 function validate(){
+    ret = true;
     var videoLength = player.data('player').p.getDuration();
     var startTime = parseInt($('input[name=startTime]').val());
     var endTime = parseInt($('input[name=endTime]').val());
 
     // Check Youtube ID Is Valid
-    if(!videoLength)
-        return false;
+    if(!videoLength){
+        ret = false;
+        $('div.has-feedback#youtubeID').addClass('has-error');
+    }else
+        $('div.has-feedback#youtubeID').removeClass('has-error');
 
     // Check End Time
-    if(endTime > videoLength || !endTime)
-        endTime = videoLength;
+    if(endTime > videoLength || !endTime){
+        ret = false;
+        $('div.has-feedback#endTime').addClass('has-error');
+    }else
+        $('div.has-feedback#endTime').removeClass('has-error');
 
     // Check Start Time
-    if(startTime < 0 || isNaN(startTime) || startTime >= endTime)
-        startTime = 0;
+    if(startTime < 0 || isNaN(startTime) || startTime >= endTime){
+        ret = false;
+        $('div.has-feedback#startTime').addClass('has-error');
+    }else
+        $('div.has-feedback#startTime').removeClass('has-error');
 
     // Update Time Variables
-    $('input[name=endTime]').val(endTime);
-    $('input[name=startTime]').val(startTime);
-    return true;
+    return ret;
 }
