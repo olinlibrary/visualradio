@@ -6,7 +6,10 @@ require('video.php');
 require('channel.php');
 
 $f3->set('DEBUG',1);
-$f3->set('db',new DB\SQL('sqlite:'.$f3->get('databaseFile')));
+$f3->set('db',new DB\SQL('sqlite:'.$f3->get('DATABASE_FILE')));
+
+if($f3->get('ALLOW_EMBED'))
+	$f3->set('XFRAME',0);
 
 $f3->route('GET /', function($f3) {
 	// Get Channels
@@ -17,7 +20,7 @@ $f3->route('GET /', function($f3) {
 });
 $f3->route('GET /channel/@channelID/status', 'Channel->status');
 
-if(!$f3->get('readonly')){
+if(!$f3->get('READ_ONLY')){
 	$f3->route('GET @channelList: /channels', 'Channel->viewAll');
 	$f3->route('GET /channel/new', 'Channel->addForm');
 	$f3->route('POST /channel/new', 'Channel->add');
