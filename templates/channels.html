@@ -1,6 +1,5 @@
 <repeat group="{{@channels}}" value="{{@channel}}">
 	<h1>Channel {{@channel.id}} - {{@channel.name}}<a href='/channel/{{@channel.id}}/edit' class='edit btn btn-default'>Edit Channel</a></h1>
-	<p class='hours'>{{'{0,number,decimal,1}',@channel.hours|format}} hours watched </p>
 	<p><a class='btn btn-primary' href='/channel/{{@channel.id}}/new'>Add Video</a></p>
 	
 	<repeat group="{{@videos[@channel.id]}}" value="{{@video}}">

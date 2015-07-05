@@ -1,7 +1,7 @@
 body {
 	padding: 50px 0;
 }
-.btn.edit, .hours {
+.btn.edit {
 	float: right;
 }
 .container.narrow {

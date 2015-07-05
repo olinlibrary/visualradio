@@ -34,10 +34,6 @@ class Channel {
 		// Error if Channel Doesn't Exist
 		if($channel->dry()) return $f3->error(400);
 
-		// Update Channel Count
-		$channel->hours += 2.5/3600;
-		$channel->save();
-
 		// Deal with Live Events
 		if($channel->live){
 			$status['youtubeID'] = $channel->live;
@@ -72,8 +68,9 @@ class Channel {
 			goto getCurrent;
 		}
 
-		$status['youtubeID'] = $video->youtubeID;
-		$status['currentTime'] = $time + $video->startTime - $schedule->startTime;
+		$status['youtube_id'] = $video->youtubeID;
+		$status['time_current'] = $time + $video->startTime - $schedule->startTime;
+		$status['time_remaining'] = $schedule->endTime - $time;
 		echo json_encode($status);
 	}
 

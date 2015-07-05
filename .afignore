@@ -1,0 +1,12 @@
+# Appfog Ignore File
+
+*.bat
+tmp/*
+db/visualradio.db
+config.sample.cfg
+remote-arduino/*
+.git/*
+.gitignore
+.afignore
+*.json
+*.md

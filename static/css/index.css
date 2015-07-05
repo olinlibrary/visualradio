@@ -1,13 +1,15 @@
-body {
+body,.container {
 	overflow: hidden;
-}
-.container {
+	background-color: #000;
 	position: absolute;
 	top: 0;
 	bottom: 0;
 	left: 0;
 	right: 0;
-	background-color: #000;
+	margin: 0;
+}
+body.hideCursor {
+	cursor: none;
 }
 .overlay {
 	opacity: 0;

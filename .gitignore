@@ -1,3 +1,4 @@
 *.bat
 tmp/*
 db/visualradio.db
+config.cfg
