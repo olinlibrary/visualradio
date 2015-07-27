@@ -1,6 +1,6 @@
 <?php
 
-$f3=require('lib-fatfree/base.php');
+$f3=require('vendor/bcosca/fatfree/base.php');
 $f3->config('config.cfg');
 require('video.php');
 require('channel.php');
