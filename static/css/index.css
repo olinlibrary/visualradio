@@ -33,6 +33,9 @@ body.hideCursor {
 	height: 140px;
 	right: 10px;
 }
+.channelguide.kiosk {
+	display:none;
+}
 .channelguide a{
 	margin: 5px;
 	text-decoration: none;

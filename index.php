@@ -18,7 +18,14 @@ $f3->route('GET /', function($f3) {
 	// Get Channels
 	$channels = new Db\SQL\Mapper($f3->get('db'), 'channels');
 	$f3->set('channels', $channels->find());
+	$f3->set('KIOSK', false);
 
+	echo Template::instance()->render('templates/index.html');
+});
+$f3->route('GET /kiosk', function($f3) {
+	$channels = new Db\SQL\Mapper($f3->get('db'), 'channels');
+	$f3->set('channels', $channels->find());
+	$f3->set('KIOSK', 'kiosk');
 	echo Template::instance()->render('templates/index.html');
 });
 $f3->route('GET /channel/@channelID/status', 'Channel->status');
