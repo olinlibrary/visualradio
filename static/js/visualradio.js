@@ -30,7 +30,12 @@ $(document).ready(function(){
             },
             events: {
                 play: function(){
-                    playerHandle.p.mute();
+
+                    if(IS_MUTED)
+                        playerHandle.p.mute();
+                    else
+                        playerHandle.p.unMute();
+
                     playerHandle.p.setLoop();
                     // playerHandle.p.setPlaybackQuality('hd1080');
                     videoLoading = false;
@@ -53,7 +58,7 @@ $(document).ready(function(){
     var channelNumber = 0;
     function getChannelList(){
         // Grab Active Channel Numbers
-        $('.channelguide a').each(function(index){
+        $('.channelguide a.channel').each(function(index){
             $(this).attr('ind',index);
             channelList.push(parseInt($(this).attr('id')));
         });
@@ -63,8 +68,8 @@ $(document).ready(function(){
             $('.channelguide a[id='+window.location.hash.substring(1)+']').addClass('active');
             channelNumber = $('.channelguide a[id='+window.location.hash.substring(1)+']').attr('ind');
         }else{
-            window.location.hash = $('.channelguide a:first').attr('id');
-            $('.channelguide a:first').addClass('active');
+            window.location.hash = $('.channelguide a.channel:first').attr('id');
+            $('.channelguide a.channel:first').addClass('active');
         }
 
         $(window).trigger('channelListInitialized');

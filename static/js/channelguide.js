@@ -30,8 +30,24 @@ function hideMenuBar(){
     $('body').addClass('hideCursor');
 }
 
-$('.channelguide a').click(function(event){
+$('.channelguide a.channel').click(function(event){
     event.preventDefault();
     $(window).trigger('changeChannel', $(this).attr('ind'));
 });
 
+
+// Mute
+var IS_MUTED = true;
+$('a#mute').click(function(event){
+    event.preventDefault();
+    IS_MUTED = !IS_MUTED;
+
+    if(IS_MUTED){
+        $(this).removeClass('off');
+        playerHandle.p.mute();
+    }else{
+        $(this).addClass('off');
+        playerHandle.p.unMute();
+    }
+
+});

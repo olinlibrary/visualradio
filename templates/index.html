@@ -5,10 +5,16 @@
 <div class="container overlay"></div>
 <div class="container error">No Connection</div>
 <div class="channelguide">
+	<check if="{{@ALLOW_SOUND}}">
+		<div class="mute">
+			<a id='mute' href='#'></a>
+		</div>
+	</check>
 	<repeat group="{{@channels}}" value="{{@channel}}">
-		<a id='{{@channel.id}}' href='#'><img src='/static/icons/{{@channel.id}}.png'></a>
+		<a class="channel" id='{{@channel.id}}' href='#'><img src='/static/icons/{{@channel.id}}.png'></a>
 	</repeat>
 </div>
+
 
 <script src="/static/js/lib/jquery.min.js"></script>
 <script src="/static/js/lib/jquery.tube.min.js"></script>
